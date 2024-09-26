@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Houseowner Registration</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image:url('https://img.freepik.com/premium-photo/tabletop-which-there-is-small-box_517312-9606.jpg?w=826') ;
+    background-size: cover;  
+    background-repeat: no-repeat;  
+    background-position: center; 
+    height: 100vh;  
+    width: 100vw;
+       }
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 33px;
+    padding-right: 50px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: left; 
+}
+
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+         
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Houseowner Registration</h1>
+    <form id="initialForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" required>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('initialForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+
+        // Store houseowner details in localStorage
+        localStorage.setItem('houseownerEmail', email);
+        localStorage.setItem('houseownerPhone', phone);
+
+        // Redirect to the houseowner management page
+        window.location.href = 'houseman.html';
+    });
+</script>
+
+</body>
+</html>

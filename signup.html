@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image:url('https://img.freepik.com/premium-photo/tabletop-which-there-is-small-box_517312-9606.jpg?w=826') ;
+            background-size: cover;  
+            background-repeat: no-repeat;  
+            background-position: center; 
+            height: 100vh;  
+            width: 100vw;
+         }
+        .signup-container {
+            background-color: rgba(255, 255, 255, 0.8);;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="password"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .role-selection {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="signup-container">
+    <h1>SignUp</h1>
+    <form id="signupForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required><br>
+
+        <div class="role-selection">
+            <label>Are you a:</label><br>
+            <input type="radio" id="houseowner" name="role" value="houseowner" required>
+            <label for="houseowner">Houseowner</label><br>
+            <input type="radio" id="user" name="role" value="user" required>
+            <label for="user">User</label>
+        </div>
+
+        <button type="submit">SignUp</button>
+    </form>
+</div>
+
+<script>
+    // Add an event listener to the signup form that triggers on form submission
+    document.getElementById("signupForm").addEventListener("submit", function(event){
+         // Prevent the default form submission behavior
+        event.preventDefault();
+
+         // Retrieve values from the form inputs
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const role = document.querySelector('input[name="role"]:checked').value;
+
+        // Check if the entered passwords match
+        if(password !== confirmPassword) {
+            // Alert the user if passwords do not match
+            alert("Passwords do not match!");
+            return;// Exit the function early to prevent further processing
+        }
+
+        // Create a userData object to store the user's information
+        const userData = {
+            name,
+            email,
+            phone,
+            password,
+            role
+        };
+        // Store the user data in local storage with the email as the key
+        localStorage.setItem(email, JSON.stringify(userData));
+        // Alert the user that the signup was successful
+        alert("Signup successful!");
+
+         // Redirect the user to different pages based on their role
+        if(role === "houseowner") {
+             // If the user is a houseowner, redirect to the house management page
+            window.location.href = "house.html";
+        } else {
+             // If the user is a houseowner, redirect to the user page
+            window.location.href = "user.html";
+        }
+    });
+</script>
+
+</body>
+</html>

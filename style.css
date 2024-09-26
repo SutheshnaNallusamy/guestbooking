@@ -1,0 +1,98 @@
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+   
+    background-image:url('https://img.freepik.com/premium-photo/tabletop-which-there-is-small-box_517312-9606.jpg?w=826') ;
+    /* background-color: rgb(237, 216, 187); */
+    background-size: cover;  
+    background-repeat: no-repeat;  
+    background-position: center; 
+    height: 100vh;  
+    width: 100vw;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+       
+    
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+button {
+    background: #5cb85c;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: #4cae4c;
+}
+
+.list {
+    margin-top: 10px;
+}
+
+.item {
+    border: 1px solid #1c1b1b;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background: #fbf8f8;
+}
+
+.item img {
+    max-width: 100px;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.item button {
+    background: #e6662f;
+    margin-right: 10px;
+}
+
+.item button:hover {
+    background: #a15855;
+}

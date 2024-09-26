@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Houseowner Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Manage Rooms</h1>
+
+    <!-- Room Management Form where houseowner can update and delete the room details -->
+    <form id="roomForm">
+        <div class="form-group">
+            <label for="roomName">Room Name:</label>
+            <input type="text" id="roomName" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="minBookingPeriod">Minimum Booking Period (days):</label>
+            <input type="number" id="minBookingPeriod" required>
+        </div>
+        <div class="form-group">
+            <label for="maxBookingPeriod">Maximum Booking Period (days):</label>
+            <input type="number" id="maxBookingPeriod" required>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount per Night:</label>
+            <input type="number" id="amount" required>
+        </div>
+        <div class="form-group">
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" accept="image/*">
+        </div>
+        <button type="submit">Add/Update Room</button>
+    </form>
+
+   
+    <div class="room-list" id="roomList">
+       
+    </div>
+</div>
+
+<script>
+    // Retrieve houseowner's email and phone number from localStorage
+    const houseownerEmail = localStorage.getItem('houseownerEmail');
+    const houseownerPhone = localStorage.getItem('houseownerPhone');
+    // Check if houseowner is registered (email and phone must exist)
+    if (!houseownerEmail || !houseownerPhone) {
+        alert('You need to register first.'); // Alert if not registered
+        window.location.href = 'initial-form.html';// Redirect to registration page 
+    }
+
+    // Retrieve the list of rooms from localStorage or initialize it as an empty object
+    const rooms = JSON.parse(localStorage.getItem('rooms')) || {};
+
+     // Function to update the displayed room list
+    function updateRoomList() {
+        // Get the room list container
+        const roomList = document.getElementById('roomList');
+        roomList.innerHTML = ''; // Clear the list before updating
+        // Loop through each room and create an HTML structure for it
+        for (const [id, room] of Object.entries(rooms)) {
+            const roomItem = document.createElement('div');// Create a new div for each room
+            roomItem.className = 'room-item';// Add class for styling
+            roomItem.innerHTML = `
+                <h2>${room.name}</h2>
+                <p>${room.description}</p>
+                <p><strong>Min Booking Period:</strong> ${room.minBookingPeriod} days</p>
+                <p><strong>Max Booking Period:</strong> ${room.maxBookingPeriod} days</p>
+                <p><strong>Amount per Night:</strong> $${room.amount}</p>
+                <img src="${room.image}" alt="Room Image">
+                <button onclick="editRoom('${id}')">Edit</button>
+                <button onclick="deleteRoom('${id}')">Delete</button>
+            `;
+            roomList.appendChild(roomItem); // Add the room item to the room list
+        }
+    }
+
+    // Function to handle form submission
+    document.getElementById('roomForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior (page reload)
+
+        // Get values from the form fields
+        const name = document.getElementById('roomName').value;
+        const description = document.getElementById('description').value;
+        const minBookingPeriod = document.getElementById('minBookingPeriod').value;
+        const maxBookingPeriod = document.getElementById('maxBookingPeriod').value;
+        const amount = document.getElementById('amount').value;
+        const image = document.getElementById('image').files[0];// Get the uploaded image file
+        // Create a URL for the uploaded image
+        const imageUrl = image ? URL.createObjectURL(image) : '';
+        
+        // Generate a unique room ID
+        const roomId = new Date().getTime().toString();
+        
+        
+    // Save the room details in the rooms object
+        rooms[roomId] = {
+            id: roomId,
+            name,
+            description,
+            minBookingPeriod,
+            maxBookingPeriod,
+            amount,
+            image: imageUrl,
+            available: true  // Room is available by default when created
+        };
+        // Store the updated rooms object in localStorage
+        localStorage.setItem('rooms', JSON.stringify(rooms));
+        // Update the displayed room list with the new room
+        updateRoomList();
+
+        // Clear form fields after submission
+        document.getElementById('roomForm').reset();
+    });
+
+    // Function to handle room editing
+    function editRoom(roomId) {
+        const room = rooms[roomId]; // Get the room data from the rooms object
+        // Populate the form fields with the existing room details for editing
+        document.getElementById('roomName').value = room.name;
+        document.getElementById('description').value = room.description;
+        document.getElementById('minBookingPeriod').value = room.minBookingPeriod;
+        document.getElementById('maxBookingPeriod').value = room.maxBookingPeriod;
+        document.getElementById('amount').value = room.amount;
+        // Handle image upload and display logic here if needed
+    }
+
+    // Function to handle room deletion
+    function deleteRoom(roomId) {
+        delete rooms[roomId];// Remove the room from the rooms object
+        localStorage.setItem('rooms', JSON.stringify(rooms));// Save the updated rooms object in localStorage
+        updateRoomList();// Refresh the displayed room list
+    }
+
+    // Initial call to populate room list (if any data is present)
+    updateRoomList();
+</script>
+
+</body>
+</html>

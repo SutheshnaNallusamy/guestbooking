@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Room Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- user page having detials of check in, check out with selected room. -->
+<div class="container">
+    <h1>Browse and Book Rooms</h1>
+    <div class="room-list" id="roomList">
+    </div>
+      <form id="bookingForm">
+        <div class="form-group">
+            <label for="selectedRoom">Room Selected:</label>
+            <input type="text" id="selectedRoom" readonly>
+        </div>
+        <div class="form-group">
+            <label for="checkinDate">Check-in Date:</label>
+            <input type="date" id="checkinDate" required>
+        </div>
+        <div class="form-group">
+            <label for="checkoutDate">Check-out Date:</label>
+            <input type="date" id="checkoutDate" required>
+        </div>
+        <button type="submit">Book Room</button>
+    </form>
+</div>
+
+<script>
+// Retrieve rooms data from local storage or set it to an empty object if no data is found
+const rooms = JSON.parse(localStorage.getItem('rooms')) || {};
+
+// Function to update the room list on the page
+function updateRoomList() {
+      // Get the container for the room list
+    const roomList = document.getElementById('roomList');
+        // Clear the current content of the room list
+
+    roomList.innerHTML = '';
+    // Loop through each room in the rooms object
+    for (const [id, room] of Object.entries(rooms)) {
+         // Create a div element for each room
+        const roomItem = document.createElement('div');
+        // Assign a class for styling
+        roomItem.className = 'room-item';
+        // Insert room details (name, description, booking period, price, and image) into the div
+        roomItem.innerHTML = `
+            <h2>${room.name}</h2>
+            <p>${room.description}</p>
+            <p><strong>Min Booking Period:</strong> ${room.minBookingPeriod} days</p>
+            <p><strong>Max Booking Period:</strong> ${room.maxBookingPeriod} days</p>
+            <p><strong>Amount per Night:</strong> $${room.amount}</p>
+            <img src="${room.image}" alt="Room Image">
+         
+            <button onclick="selectRoom('${id}')">Select Room</button>
+        `;
+        // Add the room element to the room list container
+         roomList.appendChild(roomItem);
+    }
+}
+
+// Function to handle room selection when a room is clicked
+function selectRoom(roomId) {
+    // Get the selected room details using its ID
+    const room = rooms[roomId];
+    // Update the selected room input field with the room name
+    document.getElementById('selectedRoom').value = room.name;
+}
+
+// Add an event listener to the booking form to handle form submission
+document.getElementById('bookingForm').addEventListener('submit', function(event) {
+     // Prevent the default form submission to allow custom booking logic
+    event.preventDefault();
+       // Get the selected room and check-in/check-out dates from the form inputs
+    const selectedRoom = document.getElementById('selectedRoom').value;
+    const checkinDate = document.getElementById('checkinDate').value;
+    const checkoutDate = document.getElementById('checkoutDate').value;
+    // Check if a room has been selected, if not, alert the user
+    if (!selectedRoom) {
+        alert('Please select a room to book.');
+        return;// Stop the form submission if no room is selected
+    }
+
+   // Create a booking object with the room name, check-in/check-out dates, and status
+    const booking = {
+        room: selectedRoom,
+        checkinDate,
+        checkoutDate,
+        status: 'Booked'
+    };
+     // Store the booking information in local storage
+    localStorage.setItem('booking', JSON.stringify(booking));
+     // Show an popup msg to the user confirming the booking
+    alert(`Room "${selectedRoom}" booked successfully from ${checkinDate} to ${checkoutDate}!`);
+     // Reset the form after booking is complete
+    document.getElementById('bookingForm').reset();
+});
+
+// Call the function to update the room list on page load
+updateRoomList();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image:url('https://img.freepik.com/premium-photo/tabletop-which-there-is-small-box_517312-9606.jpg?w=826') ;
+            background-size: cover;  
+            background-repeat: no-repeat;  
+            background-position: center; 
+            height: 100vh;  
+            width: 100vw;
+        }
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="email"], input[type="password"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <button type="submit">Login</button>
+    </form>
+    <div class="signup-link">
+        <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </div>
+    </form>
+</div>
+
+<script>
+   // Function to redirect the user based on their role (houseowner or user)
+    function redirectUser(userData) {
+         // If the user is a houseowner, redirect to "house.html", otherwise redirect to "user.html"
+        if(userData.role === "houseowner") {
+            window.location.href = "house.html";
+        } else {
+            window.location.href = "user.html";
+        }
+    }
+      // Adding an event listener to the login form to handle form submission
+    document.getElementById("loginForm").addEventListener("submit", function(event){
+        event.preventDefault();// Prevent the default form submission behavior
+
+        // Get the values from the email and password input fields
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+      // Retrieve the user data from localStorage using the email as the key
+        const userData = JSON.parse(localStorage.getItem(email));
+
+            // Check if the user exists and the password matches
+            if (userData && userData.password === password) {
+             // Check if the user has logged in before
+            if (localStorage.getItem('hasLoggedInBefore') !== 'true') {
+                localStorage.setItem('hasLoggedInBefore', 'true');
+            } else {
+               
+                redirectUser(userData);
+                return;
+            }
+
+           
+            alert("Login successful! Welcome!");// Display a welcome message
+            
+            
+            window.location.href = "welcome.html";// Redirect to the welcome page on first login 
+        } else {
+            alert("Invalid email or password!");
+        }
+    });
+
+  // When the page loads, this function will execute
+    window.onload = function() {
+        // Check if the user has logged in before and perform any necessary actions
+        if (localStorage.getItem('hasLoggedInBefore') === 'true') {
+             // Placeholder for any actions that need to be performed after the first login
+        }
+    }
+</script>
+
+</body>
+</html>
