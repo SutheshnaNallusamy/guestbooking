@@ -26,11 +26,3 @@ The room status will be updated to "Booked" and stored in the local device stora
 To cancel a booking, click on the booked room again to make it available.
 Project Status
 The project is functional and designed for demonstration purposes. Since it uses local storage, the data will not persist if accessed from another browser or device.
-
-Future Enhancements
-Implement a backend to store data in a central database.
-Add user authentication to secure bookings.
-Improve UI with additional booking details.
-
-Contact
-Created by Sutheshna- If have feel any suggestions or feedback free to reach out me.
